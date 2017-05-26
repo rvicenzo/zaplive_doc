@@ -1,0 +1,445 @@
+swagger: '2.0'
+info:
+  description: Zap Live rest API
+  version: 1.0.1
+  title: zap-live
+  contact:
+    name: Zap Team
+  license:
+    name: zap team
+tags:
+  - name: Login
+  - name: Logout
+  - name: Password
+  - name: User
+  - name: Room
+  - name: Element
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Login
+      summary: Validate login data and create user session
+      operationId: loginPOST
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: email
+          type: string
+          required: true
+          description: valid email address.
+        - in: formData
+          name: password
+          type: string
+          required: true
+          description: user password.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/user'
+        '404':
+          description: '{err: "message error"}'
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Login
+  /auth/logout:
+    get:
+      tags:
+        - Logout
+      summary: Destroy session data
+      operationId: logoutGET
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: '{ authenticated: false }'
+        '404':
+          description: '{err: "message error"}'
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Logout
+  /auth/info:
+    get:
+      tags:
+        - Info
+      summary: Get session info
+      operationId: infoGET
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/user'
+        '404':
+          description: '{err: "message error"}'
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Logout
+  /auth/change_password:
+    post:
+      tags:
+        - Password
+      summary: Change user password
+      operationId: changePOST
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: email
+          type: string
+          required: true
+          description: valid email address.
+        - in: formData
+          name: cur_password
+          type: string
+          required: true
+          description: current password.
+        - in: formData
+          name: new_password
+          type: string
+          required: true
+          description: new password.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/user'
+        '404':
+          description: '{err: "message error"}'
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Password
+  /auth/forgot:
+    post:
+      tags:
+        - Password
+      summary: Forgot user password
+      operationId: forgotPOST
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: email
+          type: string
+          required: true
+          description: valid email address.
+      responses:
+        '200':
+          description: "email for change password is sent"
+        '404':
+          description: '{err: "message error"}'
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Password
+  /user:
+    get:
+      tags:
+        - User
+      summary: Read Object(s)
+      operationId: userGET
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: id
+          type: integer
+          required: true
+          description: user id.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/user'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: User
+    post:
+      tags:
+        - User
+      summary: Create Object(s)
+      operationId: userPOST
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: email
+          type: string
+          required: true
+          description: valid email address.
+        - in: formData
+          name: password
+          type: string
+          description: user password.
+        - in: formData
+          name: name
+          type: string
+          required: true
+          description: user name.
+        - in: formData
+          name: gender
+          type: string
+          description: user gender.
+        - in: formData
+          name: photo
+          type: string
+          description: user photo.
+        - in: formData
+          name: confirmed
+          type: boolean
+          description: email address confirmation.
+        - in: formData
+          name: status
+          type: boolean
+          description: user status.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/user'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: User
+    put:
+      tags:
+        - User
+      summary: Update Object(s)
+      operationId: userPUT
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: id
+          type: integer
+          required: true
+          description: user id.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/user'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: User
+    delete:
+      tags:
+        - User
+      summary: Delete Object(s)
+      operationId: userDELETE
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: id
+          type: integer
+          required: true
+          description: user id.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/user'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: User
+  /room:
+    get:
+      tags:
+        - Room
+      summary: Read Object(s)
+      operationId: roomGET
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: id
+          type: integer
+          required: true
+          description: room id.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/room'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Room
+    post:
+      tags:
+        - Room
+      summary: Create Object(s)
+      operationId: roomPOST
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: name
+          type: string
+          required: true
+          description: room name.
+        - in: formData
+          name: status
+          type: boolean
+          description: available/unvailable.
+        - in: formData
+          name: zapchat
+          type: object
+          description: zapchat room data.
+        - in: formData
+          name: elements
+          type: object
+          description: association with element model.
+        - in: formData
+          name: owner
+          type: object
+          description: association with user model.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/room'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Room
+    put:
+      tags:
+        - Room
+      summary: Update Object(s)
+      operationId: roomPUT
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: id
+          type: integer
+          required: true
+          description: room id.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/room'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Room
+    delete:
+      tags:
+        - Room
+      summary: Delete Object(s)
+      operationId: roomDELETE
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: id
+          type: integer
+          required: true
+          description: room id.
+      responses:
+        '200':
+          description: The requested resource
+          schema:
+            $ref: '#/definitions/room'
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+      x-swagger-router-controller: Room
+definitions:
+  user:
+    properties:
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        format: string
+      name:
+        type: string
+        format: string
+      gender:
+        type: string
+        format: string
+      photo:
+        type: string
+        format: string
+      confirmed:
+        type: boolean
+      status:
+        type: boolean
+  room:
+    properties:
+      name:
+        type: string
+        format: email
+      status:
+        type: boolean
+        format: boolean
+      zapchat:
+        type: object
+        properties:
+          userID:
+            type: string
+          appID:
+            type: string
+          roomID:
+            type: string
+      elements:
+        schema:
+            $ref: '#/definitions/element'
+      owner:
+        schema:
+            $ref: '#/definitions/user'
+  element:
+    properties:
+      name:
+        type: string
+      status:
+        type: boolean
+      room:
+        schema:
+            $ref: '#/definitions/room'
